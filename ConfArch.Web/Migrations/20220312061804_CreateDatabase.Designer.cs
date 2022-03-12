@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ConfArch.Web.Migrations
 {
     [DbContext(typeof(ConfArchDbContext))]
-    [Migration("20220312060446_CreateDatabase")]
+    [Migration("20220312061804_CreateDatabase")]
     partial class CreateDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

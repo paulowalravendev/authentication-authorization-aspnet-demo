@@ -18,7 +18,7 @@ public class ProposalRepository : IProposalRepository
         return _dbContext.SaveChangesAsync();
     }
 
-    public async Task<ProposalModel> Approved(long id)
+    public async Task<ProposalModel> Approve(long id)
     {
         var proposal = await _dbContext.Proposals.FirstOrDefaultAsync(p => p.Id == id);
         // TODO: Improve this exception

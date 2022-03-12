@@ -11,6 +11,11 @@ public class ProposalModel : IModel
         Approved = approved;
     }
 
+    public ProposalModel(long conferenceId)
+    {
+        ConferenceId = conferenceId;
+    }
+
     public long Id { get; set; }
     public long ConferenceId { get; set; }
     public string Speaker { get; set; }
