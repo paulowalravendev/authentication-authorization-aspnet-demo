@@ -7,4 +7,8 @@
         <UserSecretsId>32fc009d-3e5c-44c4-97a2-6d2229f46b54</UserSecretsId>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\ConfArch.Data\ConfArch.Data.csproj" />
+    </ItemGroup>
+
 </Project>

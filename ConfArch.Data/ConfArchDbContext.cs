@@ -5,6 +5,10 @@ namespace ConfArch.Data;
 
 public class ConfArchDbContext : DbContext
 {
+    public ConfArchDbContext(DbContextOptions options) : base(options)
+    {
+    }
+
     public DbSet<Attendee> Attendees { get; set; } = null!;
     public DbSet<Conference> Conferences { get; set; } = null!;
     public DbSet<Proposal> Proposals { get; set; } = null!;
