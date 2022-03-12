@@ -17,8 +17,6 @@ public class UserRepository : IUserRepository
     public Task<User?> GetByUsernameAndPassword(string username, string password) =>
         _dbContext.Users.FirstOrDefaultAsync(u => u.Name == username && u.Password == password.Sha256());
 
-    public Task<User?> GetByGoogleId(string googleId)
-    {
-        throw new NotImplementedException();
-    }
+    public Task<User?> GetByGoogleId(string googleId) =>
+        _dbContext.Users.FirstOrDefaultAsync(u => u.GoogleId == googleId);
 }

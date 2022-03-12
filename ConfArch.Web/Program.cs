@@ -1,4 +1,5 @@
 using ConfArch.Data;
+using ConfArch.Web.AuthenticationSchemes;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc.Authorization;
 
@@ -11,8 +12,19 @@ builder.Services
         builder.Configuration.GetConnectionString("DefaultConnection"),
         assembly =>
             assembly.MigrationsAssembly(typeof(Program).Assembly.FullName))
-    .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie();
+    .AddAuthentication(o =>
+    {
+        o.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        // o.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+    })
+    .AddCookie()
+    .AddCookie(ExternalAuthenticationDefaults.AuthenticationScheme)
+    .AddGoogle(o =>
+    {
+        o.SignInScheme = ExternalAuthenticationDefaults.AuthenticationScheme;
+        o.ClientId = builder.Configuration.GetValue<string>("GoogleAuthentication:ClientId");
+        o.ClientSecret = builder.Configuration.GetValue<string>("GoogleAuthentication:ClientSecret");
+    });
 var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
@@ -26,7 +38,7 @@ app.UseHttpsRedirection()
     .UseAuthentication()
     .UseAuthorization();
 app.MapControllerRoute(
-name: "default",
-pattern: "{controller=Conference}/{action=Index}/{id?}");
+    name: "default",
+    pattern: "{controller=Conference}/{action=Index}/{id?}");
 
 app.Run();

@@ -1,8 +1,10 @@
 using System.Security.Claims;
 using ConfArch.Data.Repositories.Contracts;
+using ConfArch.Web.AuthenticationSchemes;
 using ConfArch.Web.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -52,5 +54,49 @@ public class AccountController : Controller
     {
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         return Redirect("/");
+    }
+
+    [AllowAnonymous]
+    public IActionResult LoginWithGoogle(string returnUrl = "/")
+    {
+        var props = new AuthenticationProperties
+        {
+            RedirectUri = Url.Action("GoogleLoginCallback"),
+            Items =
+            {
+                { "returnUrl", returnUrl }
+            }
+        };
+        return Challenge(props, GoogleDefaults.AuthenticationScheme);
+    }
+
+    [AllowAnonymous]
+    public async Task<IActionResult> GoogleLoginCallback()
+    {
+        var result = await HttpContext.AuthenticateAsync(ExternalAuthenticationDefaults.AuthenticationScheme);
+
+        var externalClaims = result.Principal?.Claims.ToList();
+        var subjectIdClaim = externalClaims?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
+        var subjectValue = subjectIdClaim?.Value;
+
+        if (subjectValue == null) return Unauthorized();
+        var user = await _userRepository.GetByGoogleId(subjectValue);
+        if (user == null) return Unauthorized();
+
+        var claims = new List<Claim>
+        {
+            new(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new(ClaimTypes.Name, user.Name),
+            new(ClaimTypes.Role, user.Role),
+            new("FavoriteColor", user.FavoriteColor),
+        };
+
+        var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+        var principal = new ClaimsPrincipal(identity);
+
+        await HttpContext.SignOutAsync(ExternalAuthenticationDefaults.AuthenticationScheme);
+        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+        
+        return LocalRedirect(result.Properties?.Items["returnUrl"] ?? "");
     }
 }
