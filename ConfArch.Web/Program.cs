@@ -7,7 +7,7 @@ builder.Services.AddControllersWithViews().Services
     .AddConfArchDbContext(
         builder.Configuration.GetConnectionString("DefaultConnection"),
         assembly =>
-            assembly.MigrationsAssembly(typeof(Program).AssemblyQualifiedName));
+            assembly.MigrationsAssembly(typeof(Program).Assembly.FullName));
 var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {

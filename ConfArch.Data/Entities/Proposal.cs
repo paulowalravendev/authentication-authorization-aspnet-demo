@@ -4,6 +4,10 @@ namespace ConfArch.Data.Entities;
 
 public class Proposal : IEntity
 {
+    public Proposal()
+    {
+        
+    }
     public Proposal(long conferenceId, string speaker, string title, bool approved)
     {
         ConferenceId = conferenceId;
