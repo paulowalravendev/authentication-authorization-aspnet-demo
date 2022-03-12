@@ -23,7 +23,7 @@ namespace ConfArch.Web.Controllers
         public IActionResult Add()
         {
             ViewBag.Title = "Organizer - Add Conference";
-            return View(ConferenceModel.Empty());
+            return View(new ConferenceModel());
         }
 
         [HttpPost]

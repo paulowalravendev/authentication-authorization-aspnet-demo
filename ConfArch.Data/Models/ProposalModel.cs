@@ -2,18 +2,22 @@ namespace ConfArch.Data.Models;
 
 public class ProposalModel : IModel
 {
-    public ProposalModel(long id, long conferenceId, string speaker, string title, bool approved)
+
+    public ProposalModel()
     {
-        Id = id;
-        ConferenceId = conferenceId;
-        Speaker = speaker;
-        Title = title;
-        Approved = approved;
     }
 
     public ProposalModel(long conferenceId)
     {
         ConferenceId = conferenceId;
+    }
+    
+    public ProposalModel(long id, long conferenceId, string speaker, string title, bool approved) : this(conferenceId)
+    {
+        Id = id;
+        Speaker = speaker;
+        Title = title;
+        Approved = approved;
     }
 
     public long Id { get; set; }

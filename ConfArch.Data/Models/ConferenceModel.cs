@@ -16,11 +16,9 @@ public class ConferenceModel : IModel
         AttendeeCount = attendeeCount;
     }
 
-    private ConferenceModel()
+    public ConferenceModel()
     {
     }
-
-    public static ConferenceModel Empty() => new ConferenceModel();
 
     public long Id { get; set; }
     public string Name { get; set; }
