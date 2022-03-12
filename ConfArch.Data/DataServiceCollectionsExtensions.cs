@@ -10,7 +10,8 @@ public static class DataServiceCollectionsExtensions
     public static IServiceCollection AddRepositories(this IServiceCollection services) =>
         services.AddScoped<IAttendeeRepository, AttendeeRepository>()
             .AddScoped<IConferenceRepository, ConferenceRepository>()
-            .AddScoped<IProposalRepository, ProposalRepository>();
+            .AddScoped<IProposalRepository, ProposalRepository>()
+            .AddScoped<IUserRepository, UserRepository>();
 
     public static IServiceCollection AddConfArchDbContext(this IServiceCollection services, string connectionString,
         Action<SqlServerDbContextOptionsBuilder>? sqlServerOptionsAction) =>

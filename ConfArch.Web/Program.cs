@@ -27,6 +27,6 @@ app.UseHttpsRedirection()
     .UseAuthorization();
 app.MapControllerRoute(
 name: "default",
-pattern: "{controller=Home}/{action=Index}/{id?}");
+pattern: "{controller=Conference}/{action=Index}/{id?}");
 
 app.Run();

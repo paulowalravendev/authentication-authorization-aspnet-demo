@@ -12,6 +12,7 @@ public class ConfArchDbContext : DbContext
     public DbSet<Attendee> Attendees { get; set; } = null!;
     public DbSet<Conference> Conferences { get; set; } = null!;
     public DbSet<Proposal> Proposals { get; set; } = null!;
+    public DbSet<User> Users { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
